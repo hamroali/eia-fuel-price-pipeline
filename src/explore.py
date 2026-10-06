@@ -13,11 +13,15 @@ params = {
     "data[0]": "value",
     "facets[series][]": "RWTC",
     "start": "2026-09-01",
+    "sort[0][column]": "period",
+    "sort[0][direction]": "asc",
 }
 response = requests.get(url, params=params)
 print("Status kodi:", response.status_code)
 data = response.json()
 print("Yuqori kalitlar:", list(data.keys()))
+
+# 5. Javobni o'qish
 data = response.json()
 print("Jami qatorlar:", data["response"]["total"])
-print("Kalit javob ichida bormi:", api_key in response.text)
+print("Birinchi yozuv:", data["response"]["data"][0])
