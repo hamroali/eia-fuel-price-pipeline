@@ -1,5 +1,8 @@
 # 1. Importlar
 import os
+import json                          # YANGI
+from datetime import datetime        # YANGI
+from pathlib import Path             # YANGI
 import requests
 from dotenv import load_dotenv
 
@@ -33,3 +36,5 @@ if response.status_code != 200:
 data = response.json()
 print("Jami qatorlar:", data["response"]["total"])
 print("Birinchi yozuv:", data["response"]["data"][0])
+
+# 6. Bronze qatlamga saqlash                                  # YANGI BO'LIM
