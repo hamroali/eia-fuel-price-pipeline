@@ -88,3 +88,42 @@ if __name__ == "__main__":
     )
     saved_path = save_bronze("spot", pages)
     print(f"spot: {len(records)} qator, saqlandi: {saved_path.relative_to(BASE_DIR)}")
+
+    if __name__ == "__main__":
+        api_key = get_api_key()
+
+        # 1-manba: kunlik spot narxlar
+        print("spot: yuklanmoqda...")
+        pages, records = fetch_dataset(
+            api_key=api_key,
+            route="petroleum/pri/spt/data/",
+            frequency="daily",
+            series=["RWTC", "RBRTE", "EER_EPD2DXL0_PF4_Y35NY_DPG", "EER_EPD2DXL0_PF4_RGC_DPG"],
+            start="2024-01-01",
+        )
+        saved_path = save_bronze("spot", pages)
+        print(f"spot: {len(records)} qator, saqlandi: {saved_path.relative_to(BASE_DIR)}")
+
+        # 2-manba: haftalik chakana dizel narxlari
+        print("retail: yuklanmoqda...")
+        pages, records = fetch_dataset(
+            api_key=api_key,
+            route="petroleum/pri/gnd/data/",
+            frequency="weekly",
+            series=[
+                "EMD_EPD2DXL0_PTE_NUS_DPG",
+                "EMD_EPD2DXL0_PTE_R10_DPG",
+                "EMD_EPD2DXL0_PTE_R1X_DPG",
+                "EMD_EPD2DXL0_PTE_R1Y_DPG",
+                "EMD_EPD2DXL0_PTE_R1Z_DPG",
+                "EMD_EPD2DXL0_PTE_R20_DPG",
+                "EMD_EPD2DXL0_PTE_R30_DPG",
+                "EMD_EPD2DXL0_PTE_R40_DPG",
+                "EMD_EPD2DXL0_PTE_R50_DPG",
+                "EMD_EPD2DXL0_PTE_R5XCA_DPG",
+                "EMD_EPD2DXL0_PTE_SCA_DPG",
+            ],
+            start="2024-01-01",
+        )
+        saved_path = save_bronze("retail", pages)
+        print(f"retail: {len(records)} qator, saqlandi: {saved_path.relative_to(BASE_DIR)}")
