@@ -38,3 +38,14 @@ print("Jami qatorlar:", data["response"]["total"])
 print("Birinchi yozuv:", data["response"]["data"][0])
 
 # 6. Bronze qatlamga saqlash                                  # YANGI BO'LIM
+BASE_DIR = Path(__file__).resolve().parent.parent
+bronze_dir = BASE_DIR / "data" / "bronze" / "spot"
+bronze_dir.mkdir(parents=True, exist_ok=True)
+
+timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+file_path = bronze_dir / f"spot_{timestamp}.json"
+
+with open(file_path, "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+
+print("Saqlandi:", file_path.relative_to(BASE_DIR))
