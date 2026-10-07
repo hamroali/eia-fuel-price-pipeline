@@ -23,29 +23,41 @@ params = {
     "start": "2026-09-01",
     "sort[0][column]": "period",
     "sort[0][direction]": "asc",
+    "facets[series][]": [
+        "RWTC",
+        "RBRTE",
+        "EER_EPD2DXL0_PF4_Y35NY_DPG",
+        "EER_EPD2DXL0_PF4_RGC_DPG",
+    ],
+    "start": "2024-01-01",
 }
 
-# 4. So'rov yuborish va tekshiris
-response = requests.get(url, params=params, timeout=30)
-print("Status kodi:", response.status_code)
+# 4. So'rov yuborish (sahifalab)
+PAGE_SIZE = 5000
+all_records = []
+pages = []
+offset = 0
 
-if response.status_code != 200:
-    raise SystemExit(f"Xato: server {response.status_code} qaytardi. Javob: {response.text[:300]}")
+while True:
+    params["offset"] = offset
+    params["length"] = PAGE_SIZE
 
-# 5. Javobni o'qish
-data = response.json()
-print("Jami qatorlar:", data["response"]["total"])
-print("Birinchi yozuv:", data["response"]["data"][0])
+    response = requests.get(url, params=params, timeout=30)
+    if response.status_code != 200:
+        raise SystemExit(f"Xato: server {response.status_code} qaytardi. Javob: {response.text[:300]}")
 
-# 6. Bronze qatlamga saqlash                                  # YANGI BO'LIM
-BASE_DIR = Path(__file__).resolve().parent.parent
-bronze_dir = BASE_DIR / "data" / "bronze" / "spot"
-bronze_dir.mkdir(parents=True, exist_ok=True)
+    data = response.json()
+    page = data["response"]["data"]
+    total = int(data["response"]["total"])
 
-timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-file_path = bronze_dir / f"spot_{timestamp}.json"
+    pages.append(data)
+    all_records.extend(page)
+    print(f"Sahifa: offset={offset}, keldi={len(page)}, jami={total}")
 
-with open(file_path, "w", encoding="utf-8") as f:
-    json.dump(data, f, ensure_ascii=False, indent=2)
+    offset += len(page)
+    if not page or offset >= total:
+        break
 
-print("Saqlandi:", file_path.relative_to(BASE_DIR))
+# 5. Natijani tekshirish
+print("Qabul qilindi:", len(all_records), "/", total)
+print("Birinchi yozuv:", all_records[0])
