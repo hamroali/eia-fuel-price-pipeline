@@ -25,7 +25,7 @@ params = {
     "sort[0][direction]": "asc",
 }
 
-# 4. So'rov yuborish va tekshirish
+# 4. So'rov yuborish va tekshiris
 response = requests.get(url, params=params, timeout=30)
 print("Status kodi:", response.status_code)
 
