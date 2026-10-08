@@ -1,0 +1,16 @@
+series_id,name,dataset,category,level,is_map_region
+RWTC,WTI Crude,spot,Crude Oil,hub,False
+RBRTE,Brent Crude,spot,Crude Oil,hub,False
+EER_EPD2DXL0_PF4_Y35NY_DPG,ULSD NY Harbor,spot,Diesel,hub,False
+EER_EPD2DXL0_PF4_RGC_DPG,ULSD Gulf Coast,spot,Diesel,hub,False
+EMD_EPD2DXL0_PTE_NUS_DPG,U.S. Average,retail,Diesel,national,False
+EMD_EPD2DXL0_PTE_R10_DPG,East Coast (PADD 1),retail,Diesel,padd,False
+EMD_EPD2DXL0_PTE_R1X_DPG,New England (PADD 1A),retail,Diesel,sub_padd,True
+EMD_EPD2DXL0_PTE_R1Y_DPG,Central Atlantic (PADD 1B),retail,Diesel,sub_padd,True
+EMD_EPD2DXL0_PTE_R1Z_DPG,Lower Atlantic (PADD 1C),retail,Diesel,sub_padd,True
+EMD_EPD2DXL0_PTE_R20_DPG,Midwest (PADD 2),retail,Diesel,padd,True
+EMD_EPD2DXL0_PTE_R30_DPG,Gulf Coast (PADD 3),retail,Diesel,padd,True
+EMD_EPD2DXL0_PTE_R40_DPG,Rocky Mountain (PADD 4),retail,Diesel,padd,True
+EMD_EPD2DXL0_PTE_R50_DPG,West Coast (PADD 5),retail,Diesel,padd,False
+EMD_EPD2DXL0_PTE_R5XCA_DPG,West Coast excl. California,retail,Diesel,sub_padd,True
+EMD_EPD2DXL0_PTE_SCA_DPG,California,retail,Diesel,state,True
