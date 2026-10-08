@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 
 # Sozlamalar
 BASE_DIR = Path(__file__).resolve().parent.parent
+log = logging.getLogger(__name__)
 API_BASE_URL = "https://api.eia.gov/v2"
 PAGE_SIZE = 5000
 TIMEOUT = 30
