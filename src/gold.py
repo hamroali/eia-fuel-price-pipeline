@@ -43,6 +43,22 @@ def build_fact_prices(df):
     fact["change"] = (fact["price"] - fact["prev_price"]).round(4)
     fact["change_pct"] = (fact["change"] / fact["prev_price"]).round(6)
     return fact
+SPREAD_COLUMNS = {
+    "RWTC": "wti",
+    "RBRTE": "brent",
+    "EER_EPD2DXL0_PF4_Y35NY_DPG": "ulsd_nyh_gal",
+}
+
+
+def build_fact_spreads(spot):
+    wide = spot.pivot(index="date", columns="series_id", values="price")
+    wide = wide[list(SPREAD_COLUMNS)].rename(columns=SPREAD_COLUMNS).reset_index()
+
+    wide["ulsd_nyh_bbl"] = (wide["ulsd_nyh_gal"] * 42).round(2)
+    wide["brent_wti_spread"] = (wide["brent"] - wide["wti"]).round(2)
+    wide["crack_spread"] = (wide["ulsd_nyh_bbl"] - wide["wti"]).round(2)
+
+    return wide.dropna(subset=["brent_wti_spread", "crack_spread"], how="all")
 
 def save_gold(df, name):
     GOLD_DIR.mkdir(parents=True, exist_ok=True)
@@ -63,3 +79,8 @@ if __name__ == "__main__":
 
     save_gold(build_fact_prices(spot), "fact_spot_prices")
     save_gold(build_fact_prices(retail), "fact_retail_prices")
+    fact_spreads = build_fact_spreads(spot)
+    print(fact_spreads[["brent_wti_spread", "crack_spread"]].count())
+    print(fact_spreads.tail(3))
+    save_gold(fact_spreads, "fact_spreads")
+    print(fact_spreads.loc[fact_spreads["brent_wti_spread"] > 10, "date"].min())
