@@ -68,19 +68,18 @@ def save_gold(df, name):
     return file_path
 
 
-if __name__ == "__main__":
+def run():
     dim_series = build_dim_series()
     dim_state = build_dim_state(dim_series)
-
     save_gold(dim_series, "dim_series")
     save_gold(dim_state, "dim_state")
+
     spot = load_silver("spot")
     retail = load_silver("retail")
-
     save_gold(build_fact_prices(spot), "fact_spot_prices")
     save_gold(build_fact_prices(retail), "fact_retail_prices")
-    fact_spreads = build_fact_spreads(spot)
-    print(fact_spreads[["brent_wti_spread", "crack_spread"]].count())
-    print(fact_spreads.tail(3))
-    save_gold(fact_spreads, "fact_spreads")
-    print(fact_spreads.loc[fact_spreads["brent_wti_spread"] > 10, "date"].min())
+    save_gold(build_fact_spreads(spot), "fact_spreads")
+
+
+if __name__ == "__main__":
+    run()

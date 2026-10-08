@@ -1,12 +1,13 @@
-"""Transform: Bronze JSON'dan toza jadval yasash va Silver qatlamga saqlash."""
 import json
+import logging
 from pathlib import Path
-
 import pandas as pd
 
 # Sozlamalar
 BASE_DIR = Path(__file__).resolve().parent.parent
+log = logging.getLogger(__name__)
 SERIES_FILE = BASE_DIR / "config" / "series.csv"
+
 
 KEEP_COLUMNS = {
     "period": "date",
@@ -59,6 +60,7 @@ def check_quality(df, name):
         raise SystemExit(f"Xato: {name} sifat tekshiruvidan o'tmadi: dublikat={dupes}, bo'sh qiymat={nulls}")
     print(f"{name}: sifat tekshiruvi o'tdi ({len(df)} qator)")
 
+
 def save_silver(df, name):
     silver_dir = BASE_DIR / "data" / "silver"
     silver_dir.mkdir(parents=True, exist_ok=True)
@@ -67,10 +69,15 @@ def save_silver(df, name):
     return file_path
 
 
-if __name__ == "__main__":
+def run():
     for name in ["spot", "retail"]:
         df = load_latest_bronze(name)
         df = clean(df)
         check_quality(df, name)
         saved_path = save_silver(df, name)
         print(f"{name}: saqlandi -> {saved_path.relative_to(BASE_DIR)}")
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    run()
