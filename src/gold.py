@@ -1,10 +1,11 @@
 """Gold: Silver'dan Power BI uchun tayyor star schema jadvallarini yasash."""
 from pathlib import Path
-
+import logging
 import pandas as pd
 
 # Sozlamalar
 BASE_DIR = Path(__file__).resolve().parent.parent
+log = logging.getLogger(__name__)
 CONFIG_DIR = BASE_DIR / "config"
 SILVER_DIR = BASE_DIR / "data" / "silver"
 GOLD_DIR = BASE_DIR / "data" / "gold"
@@ -80,6 +81,6 @@ def run():
     save_gold(build_fact_prices(retail), "fact_retail_prices")
     save_gold(build_fact_spreads(spot), "fact_spreads")
 
-
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     run()

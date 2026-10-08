@@ -5,9 +5,10 @@ import os
 import json
 from datetime import datetime
 from pathlib import Path
-
+import logging
 import requests
 from dotenv import load_dotenv
+
 
 # Sozlamalar
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -114,4 +115,5 @@ def run():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     run()
