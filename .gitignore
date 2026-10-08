@@ -221,3 +221,4 @@ __marimo__/
 .idea/
 data/bronze/**/*.json
 data/silver/*.csv
+data/gold/*.csv
