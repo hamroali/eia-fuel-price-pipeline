@@ -54,7 +54,7 @@ def fetch_dataset(api_key, route, frequency, series, start):
 
         pages.append(data)
         all_records.extend(page)
-        print(f"  sahifa: offset={offset}, keldi={len(page)}, jami={total}")
+        log.info(f"  sahifa: offset={offset}, keldi={len(page)}, jami={total}")
 
         offset += len(page)
         if not page or offset >= total:
@@ -79,7 +79,7 @@ def save_bronze(name, pages):
 def run():
     api_key = get_api_key()
 
-    print("spot: yuklanmoqda...")
+    log.info("spot: yuklanmoqda...")
     pages, records = fetch_dataset(
         api_key=api_key,
         route="petroleum/pri/spt/data/",
@@ -88,9 +88,9 @@ def run():
         start="2024-01-01",
     )
     saved_path = save_bronze("spot", pages)
-    print(f"spot: {len(records)} qator, saqlandi: {saved_path.relative_to(BASE_DIR)}")
+    log.info(f"spot: {len(records)} qator, saqlandi: {saved_path.relative_to(BASE_DIR)}")
 
-    print("retail: yuklanmoqda...")
+    log.info("retail: yuklanmoqda...")
     pages, records = fetch_dataset(
         api_key=api_key,
         route="petroleum/pri/gnd/data/",
@@ -111,7 +111,7 @@ def run():
         start="2024-01-01",
     )
     saved_path = save_bronze("retail", pages)
-    print(f"retail: {len(records)} qator, saqlandi: {saved_path.relative_to(BASE_DIR)}")
+    log.info(f"retail: {len(records)} qator, saqlandi: {saved_path.relative_to(BASE_DIR)}")
 
 
 if __name__ == "__main__":

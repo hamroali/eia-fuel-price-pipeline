@@ -40,7 +40,7 @@ def load_latest_bronze(name):
     for page in pages:
         records.extend(page["response"]["data"])
 
-    print(f"{name}: {latest.name} o'qildi, {len(records)} qator")
+    log.info(f"{name}: {latest.name} o'qildi, {len(records)} qator")
     return pd.DataFrame(records)
 
 
@@ -56,9 +56,9 @@ def check_quality(df, name):
     dupes = df.duplicated(subset=["date", "series_id"]).sum()
     nulls = df.isna().sum().sum()
     if dupes or nulls:
-        print(df.isna().sum())
+        log.info(df.isna().sum())
         raise SystemExit(f"Xato: {name} sifat tekshiruvidan o'tmadi: dublikat={dupes}, bo'sh qiymat={nulls}")
-    print(f"{name}: sifat tekshiruvi o'tdi ({len(df)} qator)")
+    log.info(f"{name}: sifat tekshiruvi o'tdi ({len(df)} qator)")
 
 
 def save_silver(df, name):
@@ -75,7 +75,7 @@ def run():
         df = clean(df)
         check_quality(df, name)
         saved_path = save_silver(df, name)
-        print(f"{name}: saqlandi -> {saved_path.relative_to(BASE_DIR)}")
+        log.info(f"{name}: saqlandi -> {saved_path.relative_to(BASE_DIR)}")
 
 
 if __name__ == "__main__":

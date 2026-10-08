@@ -32,7 +32,7 @@ def build_dim_state(dim_series):
     if dim["state_code"].duplicated().any():
         raise SystemExit("Xato: bir shtat bir necha marta uchrayapti")
 
-    print(f"dim_state: {len(dim)} shtat, {len(map_ids)} xarita hududi, tekshiruvlar o'tdi")
+    log.info(f"dim_state: {len(dim)} shtat, {len(map_ids)} xarita hududi, tekshiruvlar o'tdi")
     return dim
 def load_silver(name):
     return pd.read_csv(SILVER_DIR / f"{name}.csv", parse_dates=["date"])
@@ -65,7 +65,7 @@ def save_gold(df, name):
     GOLD_DIR.mkdir(parents=True, exist_ok=True)
     file_path = GOLD_DIR / f"{name}.csv"
     df.to_csv(file_path, index=False)
-    print(f"gold: {name} saqlandi ({len(df)} qator)")
+    log.info(f"gold: {name} saqlandi ({len(df)} qator)")
     return file_path
 
 
